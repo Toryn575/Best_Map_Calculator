@@ -1,7 +1,6 @@
 import os
 import requests
-from cache import load_cache
-from cache import save_cache
+from cache import load_cache, save_cache
 
 def getPlayerStats(playerid):
     # getting data cached or api
@@ -24,13 +23,12 @@ def getPlayerStats(playerid):
 
         response = requests.get(url, headers=headers, params=query_params)
 
-        if response.status_code == 200:
-            data = response.json() # as a list
-            save_cache(playerid, data)
-            #print(data)
-        else:
+        if response.status_code != 200:
             print(f"Error {response.status_code}: {response.text}")
             exit(1)
+
+        data = response.json()  # as a list
+        save_cache(playerid, data)
 
 
     # calculate map win percentages
@@ -51,8 +49,6 @@ def getPlayerStats(playerid):
                 "losses": 0,
                 "totalRating": 0
             }
-        # if map_name == "de_dust2" and stats["steam64_id"] == str(76561199106982401):
-        #     print(stats["leetify_rating"])
 
         if stats["rounds_won"] > stats["rounds_lost"]:
             map_stats[map_name]["wins"] += 1
