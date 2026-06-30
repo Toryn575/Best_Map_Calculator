@@ -10,6 +10,7 @@ def getPlayerStats(playerid):
         print(f"using cashed data for {playerid}")
     else:
         url = "https://api-public.cs-prod.leetify.com/v3/profile/matches"
+        #url = "https://api-public.cs-prod.leetify.com/api-key/validate" #use to validate api key
 
         headers = {
             "_leetify_key": os.environ.get("LEETIFY_API_KEY")
@@ -20,6 +21,8 @@ def getPlayerStats(playerid):
         }
 
         response = requests.get(url, headers=headers, params=query_params)
+
+        #print(f"{response.status_code}: {response.text}") # for when validating key
 
         if response.status_code != 200:
             print(f"Error {response.status_code}: {response.text}")
