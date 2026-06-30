@@ -17,8 +17,6 @@ def getPlayerStats(playerid):
 
         query_params = {
             "steam64_id": playerid,
-            "limit": 100, # number of games
-            "offset": 0
         }
 
         response = requests.get(url, headers=headers, params=query_params)
